@@ -58,13 +58,18 @@ You can get the current size of the vector using the `vec_size()` function, or s
 vec_type(int) *v_dynamic = (vec_type(int) *)malloc(sizeof(vec_type(int)));
 vec_init(int)(v_dynamic);
 
-if (vec_empty(int)(v_dynamic)) { /* `TRUE` */
+if (vec_empty(int)(v_dynamic)) { /* true */
     vec_push(int)(v_dynamic, 123);
 
-    if (vec_size(int)(v_dynamic) == 1) { /* `TRUE` */
+    if (vec_size(int)(v_dynamic) == 1) { /* true */
         vec_pop(int)(v_dynamic, NULL);
     }
+
+    ...
 }
+
+...
+free(v_dynamic);
 ```
 
 When there's no more use for the vector, the `vec_clear()` function must be called on it to free
