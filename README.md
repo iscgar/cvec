@@ -3,13 +3,13 @@ A generic, type-safe `vector` implementation in ANSI C.
 
 ## Installation ##
 Just drop the [cvec.c](cvec.c?raw=1) and [cvec.h](cvec.h?raw=1) files anywhere in your project
-and compile them with it.
+and compile along.
 
 ## Usage ##
 To be able to use a vector of any type you need to declare it first. To do so, include the `cvec.h`
 file and add a declaration in the following form outside of any function before the first use.
 ```c
-/* `T` is the type to be stored in the vector.
+/* T is the type to be stored in the vector.
  * Note the lack of a semicolon */
 using_vec_type(T)
 ```
@@ -58,10 +58,10 @@ You can get the current size of the vector using the `vec_size()` function, or s
 vec_type(int) *v_dynamic = (vec_type(int) *)malloc(sizeof(vec_type(int)));
 vec_init(int)(v_dynamic);
 
-if (vec_empty(int)(v_dynamic)) { /* true */
+if (vec_empty(int)(v_dynamic)) { /* `TRUE` */
     vec_push(int)(v_dynamic, 123);
 
-    if (vec_size(int)(v_dynamic) == 1) { /* true */
+    if (vec_size(int)(v_dynamic) == 1) { /* `TRUE` */
         vec_pop(int)(v_dynamic, NULL);
     }
 }
@@ -83,11 +83,11 @@ for (i = 0; i < 10; ++i)
 vec_clear(int)(&v);
 ```
 
-## Functions
-All vector functions are called through the macros defined int `cvec.h` and must be supplied with an
-additional type parameter in parenthesis before the arguments list.
+## Functions and Macros ##
+All vector functions are called through the macros defined int `cvec.h` and must get an additional
+type parameter in parenthesis before the arguments list.
 
-### `vec_type(T)`
+#### `vec_type(T)`
 A macro to get the type name of the vector.
 ```c
 typedef FILE* fileptr;
@@ -100,29 +100,29 @@ void foo() {
 }
 ```
 
-### `vec\_init(T)(vec_ptr)`
+#### `vec_init(T)(vec_ptr)`
 Initializes a vector of type `T`. This function must be called before any other operation on the vector
-or otherwise the other functions will either fail or your application will segfault. Returns FALSE if
+or otherwise the other functions will either fail or your application will segfault. Returns `FALSE` if
 passed a NULL pointer.
 
-### `vec\_clear(T)(vec_ptr)`
+#### `vec_clear(T)(vec_ptr)`
 Clears the elements in the vector and frees the memory allocated for them. To prevent memory leaks this
 function must be called when there's no more use for the vector.
 
-### `vec\_size(T)(vec_ptr)`
+#### `vec_size(T)(vec_ptr)`
 Return the size of the vector. 0 if empty or when passed an invalid vector pointer.
 
-### `vec\_empty(T)(vec_ptr)`
-Returns TRUE when the vector is empty or when passed an invalid vector pointer. FALSE otherwise.
+#### `vec_empty(T)(vec_ptr)`
+Returns `TRUE` when the vector is empty or when passed an invalid vector pointer. `FALSE` otherwise.
 
-### `vec\_capacity(T)(vec_ptr)`
+#### `vec_capacity(T)(vec_ptr)`
 Returns the current capacity of the vector. 0 if no memory is currently allocated or when passed an invalid
 vector pointer.
 
-### `vec\_reserve(T)(vec_ptr, n)`
+#### `vec_reserve(T)(vec_ptr, n)`
 Requests that the vector capacity be at least enough to contain `n` elements. If `n` is greater than the
-current capacity, the function causes reallocation. Otherwise it does nothing. Returns TRUE if the reservation
-succeeded. FALSE otherwise.
+current capacity, the function causes reallocation. Otherwise it does nothing. Returns `TRUE` if the reservation
+succeeded. `FALSE` otherwise.
 ```c
 vec_type(int) v;
 vec_init(int)(&v);
@@ -132,66 +132,66 @@ if (vec_reserve(int)(&v, 25)) {
 }
 ```
 
-### `vec_push(T)(vec_ptr, v)`
-Pushes a value `v` to the end of the vector. Return TRUE if `vec_ptr` points to a valid vector structure and push
-succeeded. FALSE otherwise.
+#### `vec_push(T)(vec_ptr, v)`
+Pushes a value `v` to the end of the vector. Return `TRUE` if `vec_ptr` points to a valid vector structure and push
+succeeded. `FALSE` otherwise.
 
-### `vec_pushptr(T)(vec_ptr, v_ptr)`
-Pushes a value passed by the reference `v_ptr` to the end of the vector. Return TRUE if `vec_ptr` points to a valid
-vector structure, `v_ptr` is not NULL and push succeeded. FALSE otherwise.
+#### `vec_pushptr(T)(vec_ptr, v_ptr)`
+Pushes a value passed by the reference `v_ptr` to the end of the vector. Return `TRUE` if `vec_ptr` points to a valid
+vector structure, `v_ptr` is not NULL and push succeeded. `FALSE` otherwise.
 
-### `vec_shift(T)(vec_ptr, v)`
-Shifts a value `v` to the beginning of the vector. Return TRUE if `vec_ptr` points to a valid vector structure and
-shift succeeded. FALSE otherwise.
+#### `vec_shift(T)(vec_ptr, v)`
+Shifts a value `v` to the beginning of the vector. Return `TRUE` if `vec_ptr` points to a valid vector structure and
+shift succeeded. `FALSE` otherwise.
 
-### `vec_shiftptr(T)(vec_ptr, v_ptr)`
-Shifts a value passed by the reference `v_ptr` to the beginning of the vector. Return TRUE if `vec_ptr` points to
-a valid vector structure, `v_ptr` is not NULL and shift succeeded. FALSE otherwise.
+#### `vec_shiftptr(T)(vec_ptr, v_ptr)`
+Shifts a value passed by the reference `v_ptr` to the beginning of the vector. Return `TRUE` if `vec_ptr` points to
+a valid vector structure, `v_ptr` is not NULL and shift succeeded. `FALSE` otherwise.
 
-### `vec_insert(T)(vec_ptr, v, idx)`
-Inserts a value `v` at the specified `idx` in the vector. Returns TRUE if `vec_ptr` points to a valid vector structure,
-`idx` is not greater than the vector's size and insertion suceeded. FALSE otherwise.
+#### `vec_insert(T)(vec_ptr, v, idx)`
+Inserts a value `v` at the specified `idx` in the vector. Returns `TRUE` if `vec_ptr` points to a valid vector structure,
+`idx` is not greater than the vector's size and insertion suceeded. `FALSE` otherwise.
 
-### `vec_insertptr(T)(vec_ptr, v_ptr, idx)`
-Inserts a value passed by the reference `v_ptr` at the specified `idx` in the vector. Returns TRUE if `vec_ptr` points
+#### `vec_insertptr(T)(vec_ptr, v_ptr, idx)`
+Inserts a value passed by the reference `v_ptr` at the specified `idx` in the vector. Returns `TRUE` if `vec_ptr` points
 to a valid vector structure, `v_ptr` is not NULL, `idx` is not greater than the vector's size and insertion suceeded.
-FALSE otherwise.
+`FALSE` otherwise.
 
-### `vec_get(T)(vec_ptr, idx)`
+#### `vec_get(T)(vec_ptr, idx)`
 Returns a pointer to the element at `idx`. NULL if `vec_ptr` points to an invalid vector structure or `idx` is outside
 the vector's bounds. Note that this pointer is invalid after a call to any of `vec_reserve()`, `vec_push()`, `vec_pushptr()`,
 `vec_shift()`, `vec_shiftptr()`, `vec_insert()`, `vec_insertptr()`, `vec_pop()`, `vec_unshift()`, `vec_erase()` and `vec_clear()`.
 
-### `vec_first(T)(vec_ptr)`
+#### `vec_first(T)(vec_ptr)`
 Returns a pointer to the first element in the vector. NULL if `vec_ptr` points to an invalid vector structure or if it's empty.
 Note that this pointer is invalid after a call to any of `vec_reserve()`, `vec_push()`, `vec_pushptr()`, `vec_shift()`,
 `vec_shiftptr()`, `vec_insert()`, `vec_insertptr()`, `vec_pop()`, `vec_unshift()`, `vec_erase()` and `vec_clear()`.
 
-### `vec_last(T)(vec_ptr)`
+#### `vec_last(T)(vec_ptr)`
 Returns a pointer to the last element in the vector. NULL if `vec_ptr` points to an invalid vector structure or if it's empty.
 Note that this pointer is invalid after a call to any of `vec_reserve()`, `vec_push()`, `vec_pushptr()`, `vec_shift()`,
 `vec_shiftptr()`, `vec_insert()`, `vec_insertptr()`, `vec_pop()`, `vec_unshift()`, `vec_erase()` and `vec_clear()`.
 
-### `vec_assign(T)(vec_ptr, idx, v)`
-Assigns a value 'v' at 'idx'. If `idx` equls the size of the vector, the behavior is the same as `vec_push()`. Returns TRUE
-if `vec_ptr` points to a valid vector structure and `idx` is not greater than the vector's size. FALSE otherwise.
+#### `vec_assign(T)(vec_ptr, idx, v)`
+Assigns a value 'v' at 'idx'. If `idx` equls the size of the vector, the behavior is the same as `vec_push()`. Returns `TRUE`
+if `vec_ptr` points to a valid vector structure and `idx` is not greater than the vector's size. `FALSE` otherwise.
 
-### `vec_assignptr(T)(vec_ptr, idx, v_ptr)`
+#### `vec_assignptr(T)(vec_ptr, idx, v_ptr)`
 Assigns a value passed by the reference 'v_ptr' at 'idx'. If `idx` equls the size of the vector, the behavior is the same as
-`vec_pushptr()`. Returns TRUE if `vec_ptr` points to a valid vector structure, `idx` is not greater than the vector's size and
-`v_ptr` is not NULL. FALSE otherwise.
+`vec_pushptr()`. Returns `TRUE` if `vec_ptr` points to a valid vector structure, `idx` is not greater than the vector's size and
+`v_ptr` is not NULL. `FALSE` otherwise.
 
-### `vec_pop(T)(vec_ptr, v_ptr)`
-Removes an element from the end of the vector and stores it in `v_ptr` if it's not NULL. Returns TRUE if `vec_ptr` point to a
-valid vector structure that is not empty. FALSE otherwise.
+#### `vec_pop(T)(vec_ptr, v_ptr)`
+Removes an element from the end of the vector and stores it in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr` point to a
+valid vector structure that is not empty. `FALSE` otherwise.
 
-### `vec_unshift(T)(vec_ptr, v_ptr)`
-Removes an element from the beginning of the vector and stores it in `v_ptr` if it's not NULL. Returns TRUE if `vec_ptr` point
-to a valid vector structure that is not empty. FALSE otherwise.
+#### `vec_unshift(T)(vec_ptr, v_ptr)`
+Removes an element from the beginning of the vector and stores it in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr` point
+to a valid vector structure that is not empty. `FALSE` otherwise.
 
-### `vec_erase(T)(vec_ptr, idx, v_ptr)`
-Removes the element at 'idx' from the vector and stores it in `v_ptr` if it's not NULL. Returns TRUE if `vec_ptr` point to a
-valid vector structure that is not empty and 'idx' is inside the vector's bounds. FALSE otherwise.
+#### `vec_erase(T)(vec_ptr, idx, v_ptr)`
+Removes the element at 'idx' from the vector and stores it in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr` point to a
+valid vector structure that is not empty and 'idx' is inside the vector's bounds. `FALSE` otherwise.
 
 ## License
 This library is free software; you can redistribute it and/or modify it under
