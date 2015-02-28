@@ -32,11 +32,15 @@
  *  THE SOFTWARE
  */
 
+#ifdef _MSC_VER
+#   pragma once
+#endif
+
 #ifndef _GENERIC_CVEC_H_
 #define _GENERIC_CVEC_H_
 
 /****************************************************************************************
-  Macro Definitions
+  Internal Macro Definitions
  ***************************************************************************************/
 /**
  * @internal
@@ -64,12 +68,6 @@
 
 /**
  * @internal
- * Defines the unsigned int type used troughout the <code>vec</code> library
- */
-typedef unsigned int uint;
-
-/**
- * @internal
  * Simple concatenation macros.
  */
 #define _VEC_CAT(a, b) _X_VEC_CAT(a, b)
@@ -80,14 +78,15 @@ typedef unsigned int uint;
  * Defines the type name for the generic vec type
  */
 #define _IMPL_VEC_STRUCT_NAME   _impl_vec_struct
+#define _IMPL_VEC_CMPFN_NAME    _impl_vec_cmpfn
 
 /**
  * @internal
- * Defines a vec struct of type <code>type</code>
+ * Defines a <code>vec</code> struct of type <code>type</code>
  * with the name <code>name</code>
  */
 #define _impl_vec_def_struct(type, name) \
-typedef struct \
+typedef struct _VEC_CAT(_vectag, name) \
 { \
 	uint start; \
 	uint size; \
@@ -96,17 +95,37 @@ typedef struct \
 	type *_mem; \
 } name
 
+/**
+ * @internal
+ * Defines a comparer function pointer type for a <code>vec</code> of
+ * type <code>type</code> with the name <code>name</code>
+ */
+#define _impl_vec_def_cmp(type, name) typedef int (*name)(const type *, const type *)
+
 /****************************************************************************************
-  Type Definitions
+  Internal Type Definitions
  ***************************************************************************************/
 /**
  * @internal
- * Defines the generic vec structure
+ * Defines the unsigned int type used troughout the <code>vec</code> library
  */
-_impl_vec_def_struct(unsigned char, _IMPL_VEC_STRUCT_NAME);
+typedef unsigned int uint;
+
+/**
+ * @internal
+ * Declares the generic <code>vec</code> structure
+ */
+struct _VEC_CAT(_vectag, _IMPL_VEC_STRUCT_NAME);
+typedef struct _VEC_CAT(_vectag, _IMPL_VEC_STRUCT_NAME) _IMPL_VEC_STRUCT_NAME;
+
+/**
+ * @internal
+ * Defines the generic comparer function.
+ */
+_impl_vec_def_cmp(void, _IMPL_VEC_CMPFN_NAME);
 
 /****************************************************************************************
-  Function Declarations
+  Internal Function Declarations
  ***************************************************************************************/
 #ifdef __cplusplus
 extern "C" {
@@ -207,6 +226,31 @@ extern int (_impl_vec_assign)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint idx, const vo
 
 /**
  * @internal
+ * @brief   Swaps two elements in a <code>vec</code>
+ *
+ * @param[in]  vec_ptr  Pointer to a generic <code>vec</code> structure.
+ * @param[in]  first    The index of the first element.
+ * @param[in]  second   The index of the second element.
+ * @param[out] tmp      Pointer to a temporary value to use during the swap.
+ *
+ * @return     TRUE if the swap suceeded. FALSE otherwise.
+ */
+extern int (_impl_vec_swap)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint first, uint second, void *tmp);
+
+/**
+ * @internal
+ * @brief   Sorts a <code>vec</code>
+ *
+ * @param[in]  vec_ptr  Pointer to a generic <code>vec</code> structure.
+ * @param[in]  cmpfn    Pointer to comparer function.
+ * @param[out] tmp      Pointer to a temporary value to use during the sort.
+ *
+ * @return     TRUE if the sort succeeded. FALSE otherwise.
+ */
+/* extern int (_impl_vec_sort)(_IMPL_VEC_STRUCT_NAME *vec_ptr, _IMPL_VEC_CMPFN_NAME cmpfn, void *tmp); */
+
+/**
+ * @internal
  * @brief   Pushes a value to the end of a <code>vec</code>
  *
  * @param[in] vec_ptr   Pointer to a generic <code>vec</code> structure.
@@ -288,125 +332,53 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
 } /* extern "C" { */
 #endif /* __cplusplus */
 
-#endif /* !_GENERIC_CVEC_H_ */
-
 /****************************************************************************************
-  External Declarations
+  External Macro Definitions
  ***************************************************************************************/
-#ifdef vec_init
-#   undef vec_init
-#endif
 #define vec_init(type) _VEC_CAT(_vec_init, type)
-
-#ifdef vec_capacity
-#   undef vec_capacity
-#endif
-#define vec_capacity(type) _VEC_CAT(_vec_capacity, type)
-
-#ifdef vec_size
-#   undef vec_size
-#endif
 #define vec_size(type) _VEC_CAT(_vec_size, type)
-
-#ifdef vec_empty
-#   undef vec_empty
-#endif
+#define vec_capacity(type) _VEC_CAT(_vec_capacity, type)
 #define vec_empty(type) _VEC_CAT(_vec_empty, type)
-
-#ifdef vec_get
-#   undef vec_get
-#endif
 #define vec_get(type) _VEC_CAT(_vec_get, type)
-
-#ifdef vec_first
-#   undef vec_first
-#endif
 #define vec_first(type) _VEC_CAT(_vec_first, type)
-
-#ifdef vec_last
-#   undef vec_last
-#endif
 #define vec_last(type) _VEC_CAT(_vec_last, type)
-
-#ifdef vec_pop
-#   undef vec_pop
-#endif
+#define vec_swap(type) _VEC_CAT(_vec_swap, type)
+/* #define vec_sort(type) _VEC_CAT(_vec_sort, type) */
 #define vec_pop(type) _VEC_CAT(_vec_pop, type)
-
-#ifdef vec_unshift
-#   undef vec_unshift
-#endif
 #define vec_unshift(type) _VEC_CAT(_vec_unshift, type)
-
-#ifdef vec_insert
-#   undef vec_insert
-#endif
 #define vec_insert(type) _VEC_CAT(_vec_insert, type)
-
-#ifdef vec_insertptr
-#   undef vec_insertptr
-#endif
 #define vec_insertptr(type) _VEC_CAT(_vec_insertptr, type)
-
-#ifdef vec_assignptr
-#   undef vec_assignptr
-#endif
 #define vec_assignptr(type) _VEC_CAT(_vec_assignptr, type)
-
-#ifdef vec_assign
-#   undef vec_assign
-#endif
 #define vec_assign(type) _VEC_CAT(_vec_assign, type)
-
-#ifdef vec_pushptr
-#   undef vec_pushptr
-#endif
 #define vec_pushptr(type) _VEC_CAT(_vec_pushptr, type)
-
-#ifdef vec_push
-#   undef vec_push
-#endif
 #define vec_push(type) _VEC_CAT(_vec_push, type)
-
-#ifdef vec_shiftptr
-#   undef vec_shiftptr
-#endif
 #define vec_shiftptr(type) _VEC_CAT(_vec_shiftptr, type)
-
-#ifdef vec_shift
-#   undef vec_shift
-#endif
 #define vec_shift(type) _VEC_CAT(_vec_shift, type)
-
-#ifdef vec_erase
-#   undef vec_erase
-#endif
 #define vec_erase(type) _VEC_CAT(_vec_erase, type)
-
-#ifdef vec_clear
-#   undef vec_clear
-#endif
 #define vec_clear(type) _VEC_CAT(_vec_clear, type)
 
 /**
- * Gets the type name for vec of type <code>type</code>
+ * Gets the type name for <code>vec</code> of type <code>type</code>
  *
  * @param[in] type  The type that is stored in the vec.
  */
-#ifdef vec_type
-#   undef vec_type
-#endif
-#define vec_type(type) _VEC_CAT(_vec, type)
+#define vec_type(type)      _VEC_CAT(_vec, type)
+
+/**
+ * Gets the type name of a comparer function pointer for
+ * a <code>vec</code> of type <code>type</code>
+ *
+ * @param[in] type  The type that is stored in the vec.
+ */
+#define vec_cmp_type(type)  _VEC_CAT(_vec_cmp, vec_type(type))
 
 /**
  * Defines a <code>vec</code> of type <code>type</code>
  * and its associated functionality
  */
-#ifdef using_vec_type
-#	undef using_vec_type
-#endif
 #define using_vec_type(type)	\
 	_impl_vec_def_struct(type, vec_type(type)); \
+    _impl_vec_def_cmp(type, _VEC_CAT(_cmp, vec_type(type))); \
 	\
     /**
      * @brief   Initializes a <code>vec</code>
@@ -492,6 +464,31 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
 	static type* _VEC_CAT(_vec_last, type)(vec_type(type) *vec_ptr) { \
 		return (type *)(_impl_vec_last)((_IMPL_VEC_STRUCT_NAME *)vec_ptr); \
 	} \
+    /**
+     * @brief   Swaps two elements in a <code>vec</code>
+     *
+     * @param[in]  vec_ptr  Pointer to a <code>vec</code> structure.
+     * @param[in]  first    The index of the first element.
+     * @param[in]  second   The index of the second element.
+     *
+     * @return     TRUE if the swap suceeded. FALSE otherwise.
+     */ \
+    static type* _VEC_CAT(_vec_swap, type)(vec_type(type) *vec_ptr, uint first, uint second) { \
+        type tmp; \
+        return (type *)(_impl_vec_swap)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, first, second, &tmp); \
+    } \
+    /**
+     * @brief   Sorts a <code>vec</code>
+     *
+     * @param[in]  vec_ptr  Pointer to a <code>vec</code> structure.
+     * @param[in]  cmpfn    Pointer to comparer function for type <code>type</code>.
+     *
+     * @return    TRUE if the sort succeeded. FALSE otherwise.
+     */ \
+    /* static type* _VEC_CAT(_vec_sort, type)(vec_type(type) *vec_ptr, vec_cmp_type(type) cmpfn) { \
+        type tmp; \
+        return (type *)(_impl_vec_sort)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, (_IMPL_VEC_CMPFN_NAME)cmpfn, &tmp); \
+    } */ \
     /**
      * @brief   Assigns a value passed by a pointer to an element in a <code>vec</code>
      *
@@ -634,4 +631,10 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      */ \
 	static void _VEC_CAT(_vec_clear, type)(vec_type(type) *vec_ptr) { \
 		(_impl_vec_clear)((_IMPL_VEC_STRUCT_NAME *)vec_ptr); \
-	}
+	} \
+    /*
+     * Add a dummy typedef to require insertion of a semicolon after a using_vec_type declaration.
+     */ \
+	typedef vec_cmp_type(type) *_VEC_CAT(_p, vec_cmp_type(type))
+
+#endif /* !_GENERIC_CVEC_H_ */
