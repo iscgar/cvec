@@ -1,17 +1,16 @@
 # cvec #
 A generic, type-safe `vector` implementation in ANSI C.
 
-## Installation ##
+## Usage ##
 Just drop the [cvec.c](cvec.c?raw=1) and [cvec.h](cvec.h?raw=1) files anywhere in your project
 and compile along.
 
-## Usage ##
+## Introduction ##
 To be able to use a vector of any type you need to declare it first. To do so, include the `cvec.h`
 file and add a declaration in the following form outside of any function before the first use.
 ```c
-/* T is the type to be stored in the vector.
- * Note the lack of a semicolon */
-using_vec_type(T)
+/* T is the type to be stored in the vector */
+using_vec_type(T);
 ```
 
 Any type can be used in the vector declaration, but due to the way things are handled internally
@@ -21,7 +20,7 @@ example -- you wanted a vector of pointers to `unsigned int`, you would just `ty
 typedef unsigned int* uint_ptr;
 
 /* Now we can have a vector of pointers to unsigned int */
-using_vec_type(uint_ptr)
+using_vec_type(uint_ptr);
 ```
 
 A vector should be first initialized using the `vec_init()` function.
@@ -88,7 +87,7 @@ for (i = 0; i < 10; ++i)
 vec_clear(int)(&v);
 ```
 
-## Functions and Macros ##
+## Functions and Macros Reference ##
 All vector functions are called through the macros defined int `cvec.h` and must get an additional
 type parameter in parenthesis before the arguments list.
 
@@ -96,7 +95,7 @@ type parameter in parenthesis before the arguments list.
 A macro to get the type name of the vector.
 ```c
 typedef FILE* fileptr;
-using_vec_type(fileptr)
+using_vec_type(fileptr);
 
 void foo() {
     vec_type(fileptr) filev;
@@ -162,6 +161,10 @@ Inserts a value passed by the reference `v_ptr` at the specified `idx` in the ve
 to a valid vector structure, `v_ptr` is not NULL, `idx` is not greater than the vector's size and insertion suceeded.
 `FALSE` otherwise.
 
+#### `vec_swap(T)(vec_ptr, first, second)`
+Performs a swap on the elements at indices `first` and `second` in `v_ptr`. Returns `TRUE` if `vec_ptr` points
+to a valid vector structure and `first` `second` are not greater than the vector's size. `FALSE` otherwise.
+
 #### `vec_get(T)(vec_ptr, idx)`
 Returns a pointer to the element at `idx`. NULL if `vec_ptr` points to an invalid vector structure or `idx` is outside
 the vector's bounds. Note that this pointer is invalid after a call to any of `vec_reserve()`, `vec_push()`, `vec_pushptr()`,
@@ -199,5 +202,4 @@ Removes the element at 'idx' from the vector and stores it in `v_ptr` if it's no
 valid vector structure that is not empty and 'idx' is inside the vector's bounds. `FALSE` otherwise.
 
 ## License
-This library is free software; you can redistribute it and/or modify it under
-the terms of the MIT license. See [LICENSE](LICENSE) for details.
+This library is licensed under the MIT license. See [LICENSE](LICENSE) for details.
