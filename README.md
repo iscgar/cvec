@@ -144,6 +144,10 @@ succeeded. `FALSE` otherwise.
 Pushes a value passed by the reference `v_ptr` to the end of the vector. Return `TRUE` if `vec_ptr` points to a valid
 vector structure, `v_ptr` is not NULL and push succeeded. `FALSE` otherwise.
 
+#### `vec_pusharr(T)(vec_ptr, arr, len)`
+Pushes `len` elements from the array `arr` to the end of the vector. Return `TRUE` if `vec_ptr` points to a valid
+vector structure, `arr` is not NULL and push succeeded. `FALSE` otherwise.
+
 #### `vec_shift(T)(vec_ptr, v)`
 Shifts a value `v` to the beginning of the vector. Return `TRUE` if `vec_ptr` points to a valid vector structure and
 shift succeeded. `FALSE` otherwise.
@@ -151,6 +155,10 @@ shift succeeded. `FALSE` otherwise.
 #### `vec_shiftptr(T)(vec_ptr, v_ptr)`
 Shifts a value passed by the reference `v_ptr` to the beginning of the vector. Return `TRUE` if `vec_ptr` points to
 a valid vector structure, `v_ptr` is not NULL and shift succeeded. `FALSE` otherwise.
+
+#### `vec_shiftarr(T)(vec_ptr, arr, len)`
+Shifts `len` elements from the array `arr` to the beginning of the vector. Return `TRUE` if `vec_ptr` points to a valid
+vector structure, `arr` is not NULL and shift succeeded. `FALSE` otherwise.
 
 #### `vec_insert(T)(vec_ptr, v, idx)`
 Inserts a value `v` at the specified `idx` in the vector. Returns `TRUE` if `vec_ptr` points to a valid vector structure,
@@ -161,9 +169,18 @@ Inserts a value passed by the reference `v_ptr` at the specified `idx` in the ve
 to a valid vector structure, `v_ptr` is not NULL, `idx` is not greater than the vector's size and insertion suceeded.
 `FALSE` otherwise.
 
+#### `vec_insertarr(T)(vec_ptr, arr, idx, len)`
+Inserts `len` elements from the array `arr` at the specified `idx` in the vector. Returns `TRUE` if `vec_ptr` points
+to a valid vector structure, `arr` is not NULL, `idx` is not greater than the vector's size and insertion suceeded.
+`FALSE` otherwise.
+
 #### `vec_swap(T)(vec_ptr, first, second)`
 Performs a swap on the elements at indices `first` and `second` in `v_ptr`. Returns `TRUE` if `vec_ptr` points
-to a valid vector structure and `first` `second` are not greater than the vector's size. `FALSE` otherwise.
+to a valid vector structure and `first` and `second` are not greater than the vector's size. `FALSE` otherwise.
+
+#### `vec_sort(T)(vec_ptr, cmpfn_ptr)`
+Sorts a vector using the function pointed by `cmpfn_ptr`. Returns `TRUE` if `vec_ptr` points to a valid vector structure
+and `cmpfn_ptr` is not NULL. `FALSE` otherwise.
 
 #### `vec_get(T)(vec_ptr, idx)`
 Returns a pointer to the element at `idx`. NULL if `vec_ptr` points to an invalid vector structure or `idx` is outside
@@ -190,15 +207,23 @@ Assigns a value passed by the reference 'v_ptr' at 'idx'. If `idx` equls the siz
 `v_ptr` is not NULL. `FALSE` otherwise.
 
 #### `vec_pop(T)(vec_ptr, v_ptr)`
-Removes an element from the end of the vector and stores it in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr` point to a
+Removes an element from the end of the vector and stores it in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr` points to a
 valid vector structure that is not empty. `FALSE` otherwise.
 
+#### `vec_poparr(T)(vec_ptr, len, v_ptr)`
+Removes `len` elements from the end of the vector and stores them in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr` points
+to a valid vector structure that holds at least `len` elements. `FALSE` otherwise.
+
 #### `vec_unshift(T)(vec_ptr, v_ptr)`
-Removes an element from the beginning of the vector and stores it in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr` point
+Removes an element from the beginning of the vector and stores it in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr` points
 to a valid vector structure that is not empty. `FALSE` otherwise.
 
+#### `vec_unshiftarr(T)(vec_ptr, len, v_ptr)`
+Removes `len` elements from the beginning of the vector and stores them in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr`
+points to a valid vector structure that holds at least `len` elements. `FALSE` otherwise.
+
 #### `vec_erase(T)(vec_ptr, idx, v_ptr)`
-Removes the element at 'idx' from the vector and stores it in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr` point to a
+Removes the element at 'idx' from the vector and stores it in `v_ptr` if it's not NULL. Returns `TRUE` if `vec_ptr` points to a
 valid vector structure that is not empty and 'idx' is inside the vector's bounds. `FALSE` otherwise.
 
 ## License
