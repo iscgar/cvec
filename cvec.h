@@ -9,8 +9,6 @@
  *
  * @section LICENSE
  *
- *  The MIT License (MIT)
- *
  *  Copyright (c) 2015 Isaac Garzon
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -88,11 +86,11 @@
 #define _impl_vec_def_struct(type, name) \
 typedef struct _VEC_CAT(_vectag, name) \
 { \
-    uint start; \
-    uint size; \
-    uint capacity; \
-    uint _t_size; \
-    type *_mem; \
+    unsigned int start; \
+    unsigned int size; \
+    unsigned int capacity; \
+    unsigned int _t_size; \
+    type        *_mem; \
 } name
 
 /**
@@ -105,12 +103,6 @@ typedef struct _VEC_CAT(_vectag, name) \
 /****************************************************************************************
   Internal Type Definitions
  ***************************************************************************************/
-/**
- * @internal
- * Defines the unsigned int type used troughout the <code>vec</code> library
- */
-typedef unsigned int uint;
-
 /**
  * @internal
  * Declares the generic <code>vec</code> structure
@@ -141,7 +133,7 @@ extern "C" {
  *
  * @return    TRUE if the initialization succeeded. FALSE otherwise.
  */
-extern int (_impl_vec_init)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint t_size);
+extern int (_impl_vec_init)(_IMPL_VEC_STRUCT_NAME *vec_ptr, unsigned int t_size);
 
 /**
  * @internal
@@ -155,7 +147,7 @@ extern int (_impl_vec_init)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint t_size);
  *
  * @return    TRUE if the reservation succeeded. FALSE otherwise.
  */
-extern int (_impl_vec_reserve)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint capacity);
+extern int (_impl_vec_reserve)(_IMPL_VEC_STRUCT_NAME *vec_ptr, unsigned int capacity);
 
 /**
  * @internal
@@ -165,7 +157,7 @@ extern int (_impl_vec_reserve)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint capacity);
  *
  * @return    The count of elements stored in the <code>vec</code>.
  */
-extern uint (_impl_vec_size)(const _IMPL_VEC_STRUCT_NAME *vec_ptr);
+extern unsigned int (_impl_vec_size)(const _IMPL_VEC_STRUCT_NAME *vec_ptr);
 
 /**
  * @internal
@@ -175,7 +167,7 @@ extern uint (_impl_vec_size)(const _IMPL_VEC_STRUCT_NAME *vec_ptr);
  *
  * @return    The capacity of the <code>vec</code>.
  */
-extern uint (_impl_vec_capacity)(const _IMPL_VEC_STRUCT_NAME *vec_ptr);
+extern unsigned int (_impl_vec_capacity)(const _IMPL_VEC_STRUCT_NAME *vec_ptr);
 
 /**
  * @internal
@@ -187,7 +179,7 @@ extern uint (_impl_vec_capacity)(const _IMPL_VEC_STRUCT_NAME *vec_ptr);
  * @return    Pointer to the element if @p vec_ptr and @p idx are valid.
  *            NULL otherwise.
  */
-extern void* (_impl_vec_get)(const _IMPL_VEC_STRUCT_NAME *vec_ptr, uint idx);
+extern void* (_impl_vec_get)(const _IMPL_VEC_STRUCT_NAME *vec_ptr, unsigned int idx);
 
 /**
  * @internal
@@ -212,7 +204,7 @@ extern void* (_impl_vec_last)(const _IMPL_VEC_STRUCT_NAME *vec_ptr);
  *
  * @return    TRUE if the assignment succeeded. FALSE otherwise.
  */
-extern int (_impl_vec_assign)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint idx, const void *val);
+extern int (_impl_vec_assign)(_IMPL_VEC_STRUCT_NAME *vec_ptr, unsigned int idx, const void *val);
 
 /**
  * @internal
@@ -225,7 +217,7 @@ extern int (_impl_vec_assign)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint idx, const vo
  *
  * @return     TRUE if the swap suceeded. FALSE otherwise.
  */
-extern int (_impl_vec_swap)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint first, uint second, void *tmp);
+extern int (_impl_vec_swap)(_IMPL_VEC_STRUCT_NAME *vec_ptr, unsigned int first, unsigned int second, void *tmp);
 
 /**
  * @internal
@@ -260,7 +252,7 @@ extern int (_impl_vec_push)(_IMPL_VEC_STRUCT_NAME *vec_ptr, const void *val);
  *
  * @return    TRUE if the push succeeded. FALSE otherwise.
  */
-extern int (_impl_vec_pusharr)(_IMPL_VEC_STRUCT_NAME *vec_ptr, const void *val, uint len);
+extern int (_impl_vec_pusharr)(_IMPL_VEC_STRUCT_NAME *vec_ptr, const void *val, unsigned int len);
 
 /**
  * @internal
@@ -283,7 +275,7 @@ extern int (_impl_vec_pop)(_IMPL_VEC_STRUCT_NAME *vec_ptr, void *out);
  *
  * @return    TRUE if the pop succeeded. FALSE otherwise.
  */
-extern int (_impl_vec_poparr)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint len, void *out);
+extern int (_impl_vec_poparr)(_IMPL_VEC_STRUCT_NAME *vec_ptr, unsigned int len, void *out);
 
 /**
  * @internal
@@ -296,7 +288,7 @@ extern int (_impl_vec_poparr)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint len, void *ou
  *
  * @return    TRUE if the insertion succeeded. FALSE otherwise.
  */
-extern int (_impl_vec_insert)(_IMPL_VEC_STRUCT_NAME *vec_ptr, const void *val, uint idx, uint len);
+extern int (_impl_vec_insert)(_IMPL_VEC_STRUCT_NAME *vec_ptr, const void *val, unsigned int idx, unsigned int len);
 
 /**
  * @internal
@@ -309,7 +301,7 @@ extern int (_impl_vec_insert)(_IMPL_VEC_STRUCT_NAME *vec_ptr, const void *val, u
  *
  * @return    TRUE if the removal succeeded. FALSE otherwise.
  */
-extern int (_impl_vec_erase)(_IMPL_VEC_STRUCT_NAME *vec_ptr, uint idx, uint len, void *out);
+extern int (_impl_vec_erase)(_IMPL_VEC_STRUCT_NAME *vec_ptr, unsigned int idx, unsigned int len, void *out);
 
 /**
  * @internal
@@ -400,7 +392,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the reservation succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_reserve, type)(vec_type(type) *vec_ptr, uint capacity) { \
+    static int _VEC_CAT(_vec_reserve, type)(vec_type(type) *vec_ptr, unsigned int capacity) { \
         return (_impl_vec_reserve)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, capacity); \
     } \
     /**
@@ -410,7 +402,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    The count of elements stored in the <code>vec</code>.
      */ \
-    static uint _VEC_CAT(_vec_size, type)(vec_type(type) *vec_ptr) { \
+    static unsigned int _VEC_CAT(_vec_size, type)(vec_type(type) *vec_ptr) { \
         return (_impl_vec_size)((_IMPL_VEC_STRUCT_NAME *)vec_ptr); \
     } \
     /**
@@ -420,7 +412,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    The capacity of the <code>vec</code>.
      */ \
-    static uint _VEC_CAT(_vec_capacity, type)(vec_type(type) *vec_ptr) { \
+    static unsigned int _VEC_CAT(_vec_capacity, type)(vec_type(type) *vec_ptr) { \
         return (_impl_vec_capacity)((_IMPL_VEC_STRUCT_NAME *)vec_ptr); \
     } \
     /**
@@ -440,7 +432,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      * @return    Pointer to the element if @p vec_ptr and @p idx are valid.
      *            NULL otherwise.
      */ \
-    static type* _VEC_CAT(_vec_get, type)(vec_type(type) *vec_ptr, uint idx) { \
+    static type* _VEC_CAT(_vec_get, type)(vec_type(type) *vec_ptr, unsigned int idx) { \
         return (type *)(_impl_vec_get)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, idx); \
     } \
     /**
@@ -472,7 +464,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return     TRUE if the swap suceeded. FALSE otherwise.
      */ \
-    static type* _VEC_CAT(_vec_swap, type)(vec_type(type) *vec_ptr, uint first, uint second) { \
+    static type* _VEC_CAT(_vec_swap, type)(vec_type(type) *vec_ptr, unsigned int first, unsigned int second) { \
         unsigned char tmp[sizeof(type)]; \
         return (type *)(_impl_vec_swap)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, first, second, tmp); \
     } \
@@ -500,7 +492,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the assignment succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_assignptr, type)(vec_type(type) *vec_ptr, uint idx, const type *val) { \
+    static int _VEC_CAT(_vec_assignptr, type)(vec_type(type) *vec_ptr, unsigned int idx, const type *val) { \
         return (_impl_vec_assign)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, idx, val); \
     } \
     /**
@@ -515,7 +507,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the assignment succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_assign, type)(vec_type(type) *vec_ptr, uint idx, const type val) { \
+    static int _VEC_CAT(_vec_assign, type)(vec_type(type) *vec_ptr, unsigned int idx, const type val) { \
         return (_impl_vec_assign)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, idx, &val); \
     } \
     /**
@@ -538,7 +530,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the push succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_pusharr, type)(vec_type(type) *vec_ptr, const type *val, uint len) { \
+    static int _VEC_CAT(_vec_pusharr, type)(vec_type(type) *vec_ptr, const type *val, unsigned int len) { \
         return (_impl_vec_pusharr)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, val, len); \
     } \
     /**
@@ -561,7 +553,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the pop succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_poparr, type)(vec_type(type) *vec_ptr, uint len, type *out) { \
+    static int _VEC_CAT(_vec_poparr, type)(vec_type(type) *vec_ptr, unsigned int len, type *out) { \
         return (_impl_vec_poparr)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, len, out); \
     } \
     /**
@@ -595,7 +587,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the shift succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_shiftarr, type)(vec_type(type) *vec_ptr, const type *val, uint len) { \
+    static int _VEC_CAT(_vec_shiftarr, type)(vec_type(type) *vec_ptr, const type *val, unsigned int len) { \
         return (_impl_vec_insert)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, val, 0, len); \
     } \
     /**
@@ -618,7 +610,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the unshift succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_unshiftarr, type)(vec_type(type) *vec_ptr, uint len, type *out) { \
+    static int _VEC_CAT(_vec_unshiftarr, type)(vec_type(type) *vec_ptr, unsigned int len, type *out) { \
         return (_impl_vec_erase)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, 0, len, out); \
     } \
     /**
@@ -641,7 +633,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the insertion succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_insertptr, type)(vec_type(type) *vec_ptr, const type *val, uint idx) { \
+    static int _VEC_CAT(_vec_insertptr, type)(vec_type(type) *vec_ptr, const type *val, unsigned int idx) { \
         return (_impl_vec_insert)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, val, idx, 1); \
     } \
     /**
@@ -654,7 +646,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the insertion succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_insertarr, type)(vec_type(type) *vec_ptr, const type *val, uint idx, uint len) { \
+    static int _VEC_CAT(_vec_insertarr, type)(vec_type(type) *vec_ptr, const type *val, unsigned int idx, unsigned int len) { \
         return (_impl_vec_insert)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, val, idx, len); \
     } \
     /**
@@ -666,7 +658,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the insertion succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_insert, type)(vec_type(type) *vec_ptr, const type val, uint idx) { \
+    static int _VEC_CAT(_vec_insert, type)(vec_type(type) *vec_ptr, const type val, unsigned int idx) { \
         return (_impl_vec_insert)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, &val, idx, 1); \
     } \
     /**
@@ -679,7 +671,7 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the removal succeeded. FALSE otherwise.
      */ \
-    static int _VEC_CAT(_vec_erase, type)(vec_type(type) *vec_ptr, uint idx, uint len, type *out) { \
+    static int _VEC_CAT(_vec_erase, type)(vec_type(type) *vec_ptr, unsigned int idx, unsigned int len, type *out) { \
         return (_impl_vec_erase)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, idx, len, out); \
     } \
     /**
