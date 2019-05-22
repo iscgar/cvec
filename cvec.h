@@ -464,9 +464,9 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return     TRUE if the swap suceeded. FALSE otherwise.
      */ \
-    static type* _VEC_CAT(_vec_swap, type)(vec_type(type) *vec_ptr, unsigned int first, unsigned int second) { \
+    static int _VEC_CAT(_vec_swap, type)(vec_type(type) *vec_ptr, unsigned int first, unsigned int second) { \
         unsigned char tmp[sizeof(type)]; \
-        return (type *)(_impl_vec_swap)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, first, second, tmp); \
+        return (_impl_vec_swap)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, first, second, tmp); \
     } \
     /**
      * @brief   Sorts a <code>vec</code>
@@ -476,9 +476,9 @@ extern void (_impl_vec_clear)(_IMPL_VEC_STRUCT_NAME *vec_ptr);
      *
      * @return    TRUE if the sort succeeded. FALSE otherwise.
      */ \
-    static type* _VEC_CAT(_vec_sort, type)(vec_type(type) *vec_ptr, vec_cmp_type(type) cmpfn) { \
+    static int _VEC_CAT(_vec_sort, type)(vec_type(type) *vec_ptr, vec_cmp_type(type) cmpfn) { \
         unsigned char tmp[sizeof(type)]; \
-        return (type *)(_impl_vec_sort)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, (_IMPL_VEC_CMPFN_NAME)cmpfn, tmp); \
+        return (_impl_vec_sort)((_IMPL_VEC_STRUCT_NAME *)vec_ptr, (_IMPL_VEC_CMPFN_NAME)cmpfn, tmp); \
     } \
     /**
      * @brief   Assigns a value passed by a pointer to an element in a <code>vec</code>
